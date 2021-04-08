@@ -20,22 +20,38 @@ try {
 
 if(!empty($_POST)) 
 {
-    $sql = "INSERT INTO trees (name, type, height)
-    VALUES ('".$_POST['name']."', ".$_POST['height'].", ".$_POST['type'].")";
-    // VALUES ('".$_POST['name']."', ".$_POST['type'].", ".$_POST['height'].")";
+    if($_POST['action'] == 'add') {
+        $sql = "INSERT INTO trees (name, height, type)
+        VALUES ('".$_POST['name']."', ".$_POST['height'].", ".$_POST['type'].")";
+        
+        $pdo->query($sql);
+    }
+    if($_POST['action'] == 'delete') {
+        $sql = "DELETE FROM trees WHERE id=".$_POST['id'].""; 
+        $pdo->query($sql);
+    }
+    
     header ('Location: http://localhost/septintas/relationalDatabasesIntro/form.php');
     die;
 }
 
 ?>
-
+    <!-- Create -->
     <form action="" method="post">
         Name: <input type="text" name="name">
         Type: <input type="text" name="type">
         Height: <input type="text" name="height">
-        <button type="submit">Seed</button>
+        <button type="submit" name="action" value="add">Seed</button>
     </form>
     <hr>
+
+    <!-- Delete -->
+    <form action="" method="post">
+        Id: <input type="text" name="id">
+        <button type="submit" name="action" value="delete">Pull</button>
+    </form>
+    <hr>
+
 
 
 <?php
