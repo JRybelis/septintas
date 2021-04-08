@@ -22,13 +22,14 @@ if(!empty($_POST))
 {
     if($_POST['action'] == 'add') {
         $sql = "INSERT INTO trees (name, height, type)
-        VALUES ('".$_POST['name']."', ".$_POST['height'].", ".$_POST['type'].")";
-        
-        $pdo->query($sql);
+        VALUES (?, ?, ?)";
+        $statemenet = $pdo->prepare($sql);
+        $statemenet->execute([$_POST['name'], $_POST['height'], $_POST['type']]);
     }
     if($_POST['action'] == 'delete') {
-        $sql = "DELETE FROM trees WHERE id=".$_POST['id'].""; 
-        $pdo->query($sql);
+        $sql = "DELETE FROM trees WHERE id=?"; // forming sql 
+        $statemenet = $pdo->prepare($sql); // sql preparation
+        $statemenet->execute([$_POST['id']]); // sql execution, using an array map as standin for "?"
     }
     
     header ('Location: http://localhost/septintas/relationalDatabasesIntro/form.php');
