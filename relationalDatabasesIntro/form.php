@@ -22,9 +22,9 @@ if(!empty($_POST))
 {
     if($_POST['action'] == 'add') {
         $sql = "INSERT INTO trees (name, height, type)
-        VALUES (?, ?, ?)";
+        VALUES (:name, :height, :type)"; // associative array keys
         $statemenet = $pdo->prepare($sql);
-        $statemenet->execute([$_POST['name'], $_POST['height'], $_POST['type']]);
+        $statemenet->execute(['name' => $_POST['name'], 'height' => $_POST['height'],'type' => $_POST['type']]);
     }
     if($_POST['action'] == 'delete') {
         $sql = "DELETE FROM trees WHERE id=?"; // forming sql 
@@ -56,8 +56,6 @@ if(!empty($_POST))
 
 
 <?php
-
-echo '<h2>Finished</h2>';
 
 $sql = 'SELECT name, height, id FROM trees';
 $statemenet = $pdo->query($sql);
